@@ -22,9 +22,9 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'no_telp' => 'required|string|max:20',
+            'name' => 'required|string|max:255',
+            'address' => 'required|string',
+            'phone_number' => 'required|string|max:20',
         ]);
 
         $supplier = Supplier::create($request->all());
@@ -46,9 +46,9 @@ class SupplierController extends Controller
     public function update(Request $request, Supplier $supplier)
     {
         $request->validate([
-            'nama' => 'sometimes|required|string|max:255',
-            'alamat' => 'sometimes|required|string',
-            'no_telp' => 'sometimes|required|string|max:20',
+            'name' => 'sometimes|required|string|max:255',
+            'address' => 'sometimes|required|string',
+            'phone_number' => 'sometimes|required|string|max:20',
         ]);
 
         $supplier->update($request->all());

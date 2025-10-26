@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gudang;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
-class GudangController extends Controller
+class WarehouseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $gudangs = Gudang::all();
-        return response()->json($gudangs);
+        $warehouses = Warehouse::all();
+        return response()->json($warehouses);
     }
 
     /**
@@ -22,44 +22,44 @@ class GudangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'alamat' => 'required|string',
+            'name' => 'required|string|max:255',
+            'address' => 'required|string',
         ]);
 
-        $gudang = Gudang::create($request->all());
+        $warehouse = Warehouse::create($request->all());
 
-        return response()->json($gudang, 201);
+        return response()->json($warehouse, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Gudang $gudang)
+    public function show(Warehouse $warehouse)
     {
-        return response()->json($gudang);
+        return response()->json($warehouse);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Gudang $gudang)
+    public function update(Request $request, Warehouse $warehouse)
     {
         $request->validate([
-            'nama' => 'sometimes|required|string|max:255',
-            'alamat' => 'sometimes|required|string',
+            'name' => 'sometimes|required|string|max:255',
+            'address' => 'sometimes|required|string',
         ]);
 
-        $gudang->update($request->all());
+        $warehouse->update($request->all());
 
-        return response()->json($gudang);
+        return response()->json($warehouse);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Gudang $gudang)
+    public function destroy(Warehouse $warehouse)
     {
-        $gudang->delete();
+        $warehouse->delete();
 
         return response()->json(null, 204);
     }
