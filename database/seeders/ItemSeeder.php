@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class BarangSeeder extends Seeder
+class ItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,16 +15,16 @@ class BarangSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create('id_ID');
-        $gudangIds = DB::table('gudangs')->pluck('id');
+        $warehouseIds = DB::table('warehouses')->pluck('id');
         $supplierIds = DB::table('suppliers')->pluck('id');
 
         foreach (range(1, 50) as $index) {
-            DB::table('barangs')->insert([
-                'gudang_id' => $faker->randomElement($gudangIds),
+            DB::table('items')->insert([
+                'warehouse_id' => $faker->randomElement($warehouseIds),
                 'supplier_id' => $faker->randomElement($supplierIds),
-                'nama_barang' => $faker->words(3, true),
-                'stok' => $faker->numberBetween(10, 100),
-                'harga' => $faker->numberBetween(10000, 1000000),
+                'name' => $faker->words(3, true),
+                'stock' => $faker->numberBetween(10, 100),
+                'price' => $faker->numberBetween(10000, 1000000),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

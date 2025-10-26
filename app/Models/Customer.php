@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pelanggan extends Model
+class Customer extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'nama',
-        'no_telp',
-        'alamat',
+        'name',
+        'phone',
+        'address',
     ];
 
     public function transaksis()

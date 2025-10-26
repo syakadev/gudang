@@ -10,13 +10,13 @@ class Supplier extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
-        'alamat',
-        'no_telp',
+        'name',
+        'address',
+        'phone_number',
     ];
 
-    public function barangs()
+    public function items()
     {
-        return $this->hasMany(Barang::class);
+        return $this->hasMany(Item::class);
     }
 }

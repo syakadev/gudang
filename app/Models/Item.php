@@ -5,29 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Barang extends Model
+class Item extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'nama_barang',
-        'harga',
-        'kategori',
-        'satuan',
-        'stok',
-        'gudang_id',
+        'name',
+        'price',
+        'category',
+        'unit',
+        'stock',
+        'warehouse_id',
         'supplier_id',
         'user_id',
-        'foto',
+        'photo',
     ];
 
     protected $casts = [
-        'harga' => 'decimal:2',
+        'price' => 'decimal:2',
     ];
 
-    public function gudang()
+    public function warehouse()
     {
-        return $this->belongsTo(Gudang::class);
+        return $this->belongsTo(Warehouse::class);
     }
 
     public function supplier()
@@ -40,8 +40,8 @@ class Barang extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function detailTransaksis()
+    public function transactionDetails()
     {
-        return $this->hasMany(DetailTransaksi::class);
+        return $this->hasMany(TransactionDetail::class);
     }
 }
