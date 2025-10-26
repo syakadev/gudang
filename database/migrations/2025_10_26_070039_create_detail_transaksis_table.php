@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('detail_transaksis', function (Blueprint $table) {
             $table->id();
+            // Foreign key ke tabel transaksi
+            $table->foreignId('transaksi_id')
+                  ->constrained('transaksi')
+                  ->onDelete('cascade'); // Jika transaksi dihapus, detailnya ikut terhapus
+
+            // Foreign key ke tabel barang
+            $table->foreignId('barang_id')
+                  ->constrained('barang')
+                  ->onDelete('restrict'); // Jangan hapus barang jika ada di detail transaksi
+
+            $table->unsignedInteger('jumlah_barang');
+
+            // harga barang total semua barang
+            $table->decimal('total_harga', 15, 2);
             $table->timestamps();
         });
     }
