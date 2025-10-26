@@ -13,8 +13,17 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::with(['warehouse', 'supplier', 'user'])->get();
-        return response()->json($items);
+        $items = Item::with(['warehouse', 'supplier', 'user'])->latest()->paginate(5);
+        return view('items.index', compact('items'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('items.create');
     }
 
     /**
@@ -41,9 +50,10 @@ class ItemController extends Controller
             $data['photo'] = Storage::url($path);
         }
 
-        $item = Item::create($data);
+        Item::create($data);
 
-        return response()->json($item, 201);
+        return redirect()->route('items.index')
+            ->with('success', 'Item created successfully.');
     }
 
     /**
@@ -51,8 +61,15 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        $item->load(['warehouse', 'supplier', 'user']);
-        return response()->json($item);
+        return view('items.show', compact('item'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Item $item)
+    {
+        return view('items.edit', compact('item'));
     }
 
     /**
@@ -86,7 +103,8 @@ class ItemController extends Controller
 
         $item->update($data);
 
-        return response()->json($item);
+        return redirect()->route('items.index')
+            ->with('success', 'Item updated successfully');
     }
 
     /**
@@ -101,6 +119,7 @@ class ItemController extends Controller
 
         $item->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('items.index')
+            ->with('success', 'Item deleted successfully');
     }
 }

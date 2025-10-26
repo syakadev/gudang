@@ -12,8 +12,17 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
-        return response()->json($customers);
+        $customers = Customer::latest()->paginate(5);
+        return view('customers.index', compact('customers'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('customers.create');
     }
 
     /**
@@ -27,9 +36,10 @@ class CustomerController extends Controller
             'address' => 'required|string',
         ]);
 
-        $customer = Customer::create($request->all());
+        Customer::create($request->all());
 
-        return response()->json($customer, 201);
+        return redirect()->route('customers.index')
+            ->with('success', 'Customer created successfully.');
     }
 
     /**
@@ -37,7 +47,15 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return response()->json($customer);
+        return view('customers.show', compact('customer'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Customer $customer)
+    {
+        return view('customers.edit', compact('customer'));
     }
 
     /**
@@ -53,7 +71,8 @@ class CustomerController extends Controller
 
         $customer->update($request->all());
 
-        return response()->json($customer);
+        return redirect()->route('customers.index')
+            ->with('success', 'Customer updated successfully');
     }
 
     /**
@@ -63,6 +82,7 @@ class CustomerController extends Controller
     {
         $customer->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('customers.index')
+            ->with('success', 'Customer deleted successfully');
     }
 }

@@ -12,8 +12,17 @@ class TransactionDetailController extends Controller
      */
     public function index()
     {
-        $transactionDetails = TransactionDetail::with(['transaction', 'item'])->get();
-        return response()->json($transactionDetails);
+        $transactionDetails = TransactionDetail::with(['transaction', 'item'])->latest()->paginate(5);
+        return view('transaction_details.index', compact('transactionDetails'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('transaction_details.create');
     }
 
     /**
@@ -28,9 +37,10 @@ class TransactionDetailController extends Controller
             'total_price' => 'required|numeric',
         ]);
 
-        $transactionDetail = TransactionDetail::create($request->all());
+        TransactionDetail::create($request->all());
 
-        return response()->json($transactionDetail, 201);
+        return redirect()->route('transaction_details.index')
+            ->with('success', 'Transaction Detail created successfully.');
     }
 
     /**
@@ -38,8 +48,15 @@ class TransactionDetailController extends Controller
      */
     public function show(TransactionDetail $transactionDetail)
     {
-        $transactionDetail->load(['transaction', 'item']);
-        return response()->json($transactionDetail);
+        return view('transaction_details.show', compact('transactionDetail'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(TransactionDetail $transactionDetail)
+    {
+        return view('transaction_details.edit', compact('transactionDetail'));
     }
 
     /**
@@ -56,7 +73,8 @@ class TransactionDetailController extends Controller
 
         $transactionDetail->update($request->all());
 
-        return response()->json($transactionDetail);
+        return redirect()->route('transaction_details.index')
+            ->with('success', 'Transaction Detail updated successfully');
     }
 
     /**
@@ -66,6 +84,7 @@ class TransactionDetailController extends Controller
     {
         $transactionDetail->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('transaction_details.index')
+            ->with('success', 'Transaction Detail deleted successfully');
     }
 }

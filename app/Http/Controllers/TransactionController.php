@@ -12,8 +12,17 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with(['user', 'customer', 'transactionDetails'])->get();
-        return response()->json($transactions);
+        $transactions = Transaction::with(['user', 'customer', 'transactionDetails'])->latest()->paginate(5);
+        return view('transactions.index', compact('transactions'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('transactions.create');
     }
 
     /**
@@ -31,9 +40,10 @@ class TransactionController extends Controller
             'customer_id' => 'nullable|exists:customers,id',
         ]);
 
-        $transaction = Transaction::create($request->all());
+        Transaction::create($request->all());
 
-        return response()->json($transaction, 201);
+        return redirect()->route('transactions.index')
+            ->with('success', 'Transaction created successfully.');
     }
 
     /**
@@ -41,8 +51,15 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        $transaction->load(['user', 'customer', 'transactionDetails']);
-        return response()->json($transaction);
+        return view('transactions.show', compact('transaction'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Transaction $transaction)
+    {
+        return view('transactions.edit', compact('transaction'));
     }
 
     /**
@@ -62,7 +79,8 @@ class TransactionController extends Controller
 
         $transaction->update($request->all());
 
-        return response()->json($transaction);
+        return redirect()->route('transactions.index')
+            ->with('success', 'Transaction updated successfully');
     }
 
     /**
@@ -72,6 +90,7 @@ class TransactionController extends Controller
     {
         $transaction->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('transactions.index')
+            ->with('success', 'Transaction deleted successfully');
     }
 }

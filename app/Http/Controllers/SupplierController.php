@@ -12,8 +12,17 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::all();
-        return response()->json($suppliers);
+        $suppliers = Supplier::latest()->paginate(5);
+        return view('suppliers.index', compact('suppliers'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('suppliers.create');
     }
 
     /**
@@ -27,9 +36,10 @@ class SupplierController extends Controller
             'phone_number' => 'required|string|max:20',
         ]);
 
-        $supplier = Supplier::create($request->all());
+        Supplier::create($request->all());
 
-        return response()->json($supplier, 201);
+        return redirect()->route('suppliers.index')
+            ->with('success', 'Supplier created successfully.');
     }
 
     /**
@@ -37,7 +47,15 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        return response()->json($supplier);
+        return view('suppliers.show', compact('supplier'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Supplier $supplier)
+    {
+        return view('suppliers.edit', compact('supplier'));
     }
 
     /**
@@ -53,7 +71,8 @@ class SupplierController extends Controller
 
         $supplier->update($request->all());
 
-        return response()->json($supplier);
+        return redirect()->route('suppliers.index')
+            ->with('success', 'Supplier updated successfully');
     }
 
     /**
@@ -63,6 +82,7 @@ class SupplierController extends Controller
     {
         $supplier->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('suppliers.index')
+            ->with('success', 'Supplier deleted successfully');
     }
 }

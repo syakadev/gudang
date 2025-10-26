@@ -12,8 +12,17 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        $warehouses = Warehouse::all();
-        return response()->json($warehouses);
+        $warehouses = Warehouse::latest()->paginate(5);
+        return view('warehouses.index', compact('warehouses'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('warehouses.create');
     }
 
     /**
@@ -26,9 +35,10 @@ class WarehouseController extends Controller
             'address' => 'required|string',
         ]);
 
-        $warehouse = Warehouse::create($request->all());
+        Warehouse::create($request->all());
 
-        return response()->json($warehouse, 201);
+        return redirect()->route('warehouses.index')
+            ->with('success', 'Warehouse created successfully.');
     }
 
     /**
@@ -36,7 +46,15 @@ class WarehouseController extends Controller
      */
     public function show(Warehouse $warehouse)
     {
-        return response()->json($warehouse);
+        return view('warehouses.show', compact('warehouse'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Warehouse $warehouse)
+    {
+        return view('warehouses.edit', compact('warehouse'));
     }
 
     /**
@@ -51,7 +69,8 @@ class WarehouseController extends Controller
 
         $warehouse->update($request->all());
 
-        return response()->json($warehouse);
+        return redirect()->route('warehouses.index')
+            ->with('success', 'Warehouse updated successfully');
     }
 
     /**
@@ -61,6 +80,7 @@ class WarehouseController extends Controller
     {
         $warehouse->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('warehouses.index')
+            ->with('success', 'Warehouse deleted successfully');
     }
 }

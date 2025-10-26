@@ -12,11 +12,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('api')->group(function () {
-    Route::apiResource('items', ItemController::class);
-    Route::apiResource('warehouses', WarehouseController::class);
-    Route::apiResource('customers', CustomerController::class);
-    Route::apiResource('suppliers', SupplierController::class);
-    Route::apiResource('transactions', TransactionController::class);
-    Route::apiResource('transaction-details', TransactionDetailController::class);
-});
+Route::resource('items', ItemController::class);
+Route::resource('warehouses', WarehouseController::class);
+Route::resource('customers', CustomerController::class);
+Route::resource('suppliers', SupplierController::class);
+Route::resource('transactions', TransactionController::class);
+Route::resource('transaction_details', TransactionDetailController::class);
