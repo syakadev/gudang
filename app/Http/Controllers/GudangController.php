@@ -12,15 +12,8 @@ class GudangController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $gudangs = Gudang::all();
+        return response()->json($gudangs);
     }
 
     /**
@@ -28,7 +21,14 @@ class GudangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string',
+        ]);
+
+        $gudang = Gudang::create($request->all());
+
+        return response()->json($gudang, 201);
     }
 
     /**
@@ -36,15 +36,7 @@ class GudangController extends Controller
      */
     public function show(Gudang $gudang)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Gudang $gudang)
-    {
-        //
+        return response()->json($gudang);
     }
 
     /**
@@ -52,7 +44,14 @@ class GudangController extends Controller
      */
     public function update(Request $request, Gudang $gudang)
     {
-        //
+        $request->validate([
+            'nama' => 'sometimes|required|string|max:255',
+            'alamat' => 'sometimes|required|string',
+        ]);
+
+        $gudang->update($request->all());
+
+        return response()->json($gudang);
     }
 
     /**
@@ -60,6 +59,8 @@ class GudangController extends Controller
      */
     public function destroy(Gudang $gudang)
     {
-        //
+        $gudang->delete();
+
+        return response()->json(null, 204);
     }
 }

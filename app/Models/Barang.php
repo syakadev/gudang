@@ -18,6 +18,7 @@ class Barang extends Model
         'gudang_id',
         'supplier_id',
         'user_id',
+        'foto',
     ];
 
     protected $casts = [

@@ -12,15 +12,8 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $suppliers = Supplier::all();
+        return response()->json($suppliers);
     }
 
     /**
@@ -28,7 +21,15 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'no_telp' => 'required|string|max:20',
+        ]);
+
+        $supplier = Supplier::create($request->all());
+
+        return response()->json($supplier, 201);
     }
 
     /**
@@ -36,15 +37,7 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Supplier $supplier)
-    {
-        //
+        return response()->json($supplier);
     }
 
     /**
@@ -52,7 +45,15 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $request->validate([
+            'nama' => 'sometimes|required|string|max:255',
+            'alamat' => 'sometimes|required|string',
+            'no_telp' => 'sometimes|required|string|max:20',
+        ]);
+
+        $supplier->update($request->all());
+
+        return response()->json($supplier);
     }
 
     /**
@@ -60,6 +61,8 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $supplier->delete();
+
+        return response()->json(null, 204);
     }
 }

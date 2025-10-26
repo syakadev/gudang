@@ -12,15 +12,8 @@ class DetailTransaksiController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $detailTransaksis = DetailTransaksi::with(['transaksi', 'barang'])->get();
+        return response()->json($detailTransaksis);
     }
 
     /**
@@ -28,7 +21,16 @@ class DetailTransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'transaksi_id' => 'required|exists:transaksis,id',
+            'barang_id' => 'required|exists:barangs,id',
+            'jumlah_barang' => 'required|integer',
+            'total_harga' => 'required|numeric',
+        ]);
+
+        $detailTransaksi = DetailTransaksi::create($request->all());
+
+        return response()->json($detailTransaksi, 201);
     }
 
     /**
@@ -36,15 +38,8 @@ class DetailTransaksiController extends Controller
      */
     public function show(DetailTransaksi $detailTransaksi)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DetailTransaksi $detailTransaksi)
-    {
-        //
+        $detailTransaksi->load(['transaksi', 'barang']);
+        return response()->json($detailTransaksi);
     }
 
     /**
@@ -52,7 +47,16 @@ class DetailTransaksiController extends Controller
      */
     public function update(Request $request, DetailTransaksi $detailTransaksi)
     {
-        //
+        $request->validate([
+            'transaksi_id' => 'sometimes|required|exists:transaksis,id',
+            'barang_id' => 'sometimes|required|exists:barangs,id',
+            'jumlah_barang' => 'sometimes|required|integer',
+            'total_harga' => 'sometimes|required|numeric',
+        ]);
+
+        $detailTransaksi->update($request->all());
+
+        return response()->json($detailTransaksi);
     }
 
     /**
@@ -60,6 +64,8 @@ class DetailTransaksiController extends Controller
      */
     public function destroy(DetailTransaksi $detailTransaksi)
     {
-        //
+        $detailTransaksi->delete();
+
+        return response()->json(null, 204);
     }
 }

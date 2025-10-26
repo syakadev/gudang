@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
             $table->string('nama_barang');
+            $table->string('foto');
             $table->decimal('harga', 15, 2); // 15 digit total, 2 di belakang koma
             $table->string('kategori');
             $table->string('satuan'); // misal: 'pcs', 'kg', 'liter'

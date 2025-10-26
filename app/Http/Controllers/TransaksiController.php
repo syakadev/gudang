@@ -12,15 +12,8 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $transaksis = Transaksi::with(['user', 'pelanggan', 'detailTransaksis'])->get();
+        return response()->json($transaksis);
     }
 
     /**
@@ -28,7 +21,19 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'catatan' => 'nullable|string',
+            'tanggal' => 'required|date',
+            'total_harga' => 'required|numeric',
+            'alamat_pengiriman' => 'nullable|string',
+            'jenis_transaksi' => 'required|in:masuk,keluar',
+            'user_id' => 'required|exists:users,id',
+            'pelanggan_id' => 'nullable|exists:pelanggans,id',
+        ]);
+
+        $transaksi = Transaksi::create($request->all());
+
+        return response()->json($transaksi, 201);
     }
 
     /**
@@ -36,15 +41,8 @@ class TransaksiController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Transaksi $transaksi)
-    {
-        //
+        $transaksi->load(['user', 'pelanggan', 'detailTransaksis']);
+        return response()->json($transaksi);
     }
 
     /**
@@ -52,7 +50,19 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, Transaksi $transaksi)
     {
-        //
+        $request->validate([
+            'catatan' => 'nullable|string',
+            'tanggal' => 'sometimes|required|date',
+            'total_harga' => 'sometimes|required|numeric',
+            'alamat_pengiriman' => 'nullable|string',
+            'jenis_transaksi' => 'sometimes|required|in:masuk,keluar',
+            'user_id' => 'sometimes|required|exists:users,id',
+            'pelanggan_id' => 'nullable|exists:pelanggans,id',
+        ]);
+
+        $transaksi->update($request->all());
+
+        return response()->json($transaksi);
     }
 
     /**
@@ -60,6 +70,8 @@ class TransaksiController extends Controller
      */
     public function destroy(Transaksi $transaksi)
     {
-        //
+        $transaksi->delete();
+
+        return response()->json(null, 204);
     }
 }
