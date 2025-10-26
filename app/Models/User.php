@@ -17,10 +17,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'nama',
+        'name',
         'username',
         'password',
-        'no_telp',
+        'phone_number',
         'role',
     ];
 
@@ -48,18 +48,18 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the barangs for the user.
+     * Get the items for the user.
      */
-    public function barangs()
+    public function items()
     {
-        return $this->hasMany(Barang::class);
+        return $this->hasMany(Item::class);
     }
 
     /**
-     * Get the transaksis for the user.
+     * Get the transactions for the user.
      */
-    public function transaksis()
+    public function transactions()
     {
-        return $this->hasMany(Transaksi::class);
+        return $this->hasMany(Transaction::class);
     }
 }

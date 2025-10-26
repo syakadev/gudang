@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaksi;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-class TransaksiController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $transaksis = Transaksi::with(['user', 'pelanggan', 'detailTransaksis'])->get();
-        return response()->json($transaksis);
+        $transactions = Transaction::with(['user', 'customer', 'transactionDetails'])->get();
+        return response()->json($transactions);
     }
 
     /**
@@ -22,55 +22,55 @@ class TransaksiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'catatan' => 'nullable|string',
-            'tanggal' => 'required|date',
-            'total_harga' => 'required|numeric',
-            'alamat_pengiriman' => 'nullable|string',
-            'jenis_transaksi' => 'required|in:masuk,keluar',
+            'notes' => 'nullable|string',
+            'transaction_date' => 'required|date',
+            'total_price' => 'required|numeric',
+            'shipping_address' => 'nullable|string',
+            'transaction_type' => 'required|in:in,out',
             'user_id' => 'required|exists:users,id',
-            'pelanggan_id' => 'nullable|exists:pelanggans,id',
+            'customer_id' => 'nullable|exists:customers,id',
         ]);
 
-        $transaksi = Transaksi::create($request->all());
+        $transaction = Transaction::create($request->all());
 
-        return response()->json($transaksi, 201);
+        return response()->json($transaction, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Transaksi $transaksi)
+    public function show(Transaction $transaction)
     {
-        $transaksi->load(['user', 'pelanggan', 'detailTransaksis']);
-        return response()->json($transaksi);
+        $transaction->load(['user', 'customer', 'transactionDetails']);
+        return response()->json($transaction);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Transaksi $transaksi)
+    public function update(Request $request, Transaction $transaction)
     {
         $request->validate([
-            'catatan' => 'nullable|string',
-            'tanggal' => 'sometimes|required|date',
-            'total_harga' => 'sometimes|required|numeric',
-            'alamat_pengiriman' => 'nullable|string',
-            'jenis_transaksi' => 'sometimes|required|in:masuk,keluar',
+            'notes' => 'nullable|string',
+            'transaction_date' => 'sometimes|required|date',
+            'total_price' => 'sometimes|required|numeric',
+            'shipping_address' => 'nullable|string',
+            'transaction_type' => 'sometimes|required|in:in,out',
             'user_id' => 'sometimes|required|exists:users,id',
-            'pelanggan_id' => 'nullable|exists:pelanggans,id',
+            'customer_id' => 'nullable|exists:customers,id',
         ]);
 
-        $transaksi->update($request->all());
+        $transaction->update($request->all());
 
-        return response()->json($transaksi);
+        return response()->json($transaction);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaksi $transaksi)
+    public function destroy(Transaction $transaction)
     {
-        $transaksi->delete();
+        $transaction->delete();
 
         return response()->json(null, 204);
     }

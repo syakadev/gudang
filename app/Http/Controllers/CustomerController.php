@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pelanggan;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
-class PelangganController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $pelanggans = Pelanggan::all();
-        return response()->json($pelanggans);
+        $customers = Customer::all();
+        return response()->json($customers);
     }
 
     /**
@@ -22,46 +22,46 @@ class PelangganController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_telp' => 'required|string|max:20',
-            'alamat' => 'required|string',
+            'name' => 'required|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'address' => 'required|string',
         ]);
 
-        $pelanggan = Pelanggan::create($request->all());
+        $customer = Customer::create($request->all());
 
-        return response()->json($pelanggan, 201);
+        return response()->json($customer, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pelanggan $pelanggan)
+    public function show(Customer $customer)
     {
-        return response()->json($pelanggan);
+        return response()->json($customer);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pelanggan $pelanggan)
+    public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'nama' => 'sometimes|required|string|max:255',
-            'no_telp' => 'sometimes|required|string|max:20',
-            'alamat' => 'sometimes|required|string',
+            'name' => 'sometimes|required|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'address' => 'sometimes|required|string',
         ]);
 
-        $pelanggan->update($request->all());
+        $customer->update($request->all());
 
-        return response()->json($pelanggan);
+        return response()->json($customer);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pelanggan $pelanggan)
+    public function destroy(Customer $customer)
     {
-        $pelanggan->delete();
+        $customer->delete();
 
         return response()->json(null, 204);
     }

@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Gudang extends Model
+class Warehouse extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'nama',
-        'alamat',
+        'name',
+        'address',
     ];
 
-    public function barangs()
+    public function items()
     {
-        return $this->hasMany(Barang::class);
+        return $this->hasMany(Item::class);
     }
 }

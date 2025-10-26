@@ -11,22 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detail_transaksis', function (Blueprint $table) {
+        Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
-            // Foreign key ke tabel transaksi
-            $table->foreignId('transaksi_id')
-                  ->constrained('transaksi')
-                  ->onDelete('cascade'); // Jika transaksi dihapus, detailnya ikut terhapus
+            $table->foreignId('transaction_id')
+                  ->constrained('transactions')
+                  ->onDelete('cascade');
 
-            // Foreign key ke tabel barang
-            $table->foreignId('barang_id')
-                  ->constrained('barang')
-                  ->onDelete('restrict'); // Jangan hapus barang jika ada di detail transaksi
+            $table->foreignId('item_id')
+                  ->constrained('items')
+                  ->onDelete('restrict');
 
-            $table->unsignedInteger('jumlah_barang');
+            $table->unsignedInteger('quantity');
 
-            // harga barang total semua barang
-            $table->decimal('total_harga', 15, 2);
+            $table->decimal('total_price', 15, 2);
             $table->timestamps();
         });
     }
@@ -36,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail_transaksis');
+        Schema::dropIfExists('transaction_details');
     }
 };

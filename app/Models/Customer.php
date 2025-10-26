@@ -11,12 +11,12 @@ class Customer extends Model
 
     protected $fillable = [
         'name',
-        'phone',
         'address',
+        'phone_number',
     ];
 
-    public function transaksis()
+    public function transactions()
     {
-        return $this->hasMany(Transaksi::class);
+        return $this->hasMany(Transaction::class);
     }
 }

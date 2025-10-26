@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transaksi extends Model
+class Transaction extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'catatan',
-        'tanggal',
-        'total_harga',
-        'alamat_pengiriman',
-        'jenis_transaksi',
+        'notes',
+        'transaction_date',
+        'total_price',
+        'shipping_address',
+        'transaction_type',
         'user_id',
-        'pelanggan_id',
+        'customer_id',
     ];
 
     protected $casts = [
-        'tanggal' => 'datetime',
-        'total_harga' => 'decimal:2',
+        'transaction_date' => 'datetime',
+        'total_price' => 'decimal:2',
     ];
 
     public function user()
@@ -29,13 +29,13 @@ class Transaksi extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function pelanggan()
+    public function customer()
     {
-        return $this->belongsTo(Pelanggan::class);
+        return $this->belongsTo(Customer::class);
     }
 
-    public function detailTransaksis()
+    public function transactionDetails()
     {
-        return $this->hasMany(DetailTransaksi::class);
+        return $this->hasMany(TransactionDetail::class);
     }
 }

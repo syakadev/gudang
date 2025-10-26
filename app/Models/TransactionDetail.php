@@ -5,28 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DetailTransaksi extends Model
+class TransactionDetail extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'transaksi_id',
-        'barang_id',
-        'jumlah_barang',
-        'total_harga',
+        'transaction_id',
+        'item_id',
+        'quantity',
+        'total_price',
     ];
 
     protected $casts = [
-        'total_harga' => 'decimal:2',
+        'total_price' => 'decimal:2',
     ];
 
-    public function transaksi()
+    public function transaction()
     {
-        return $this->belongsTo(Transaksi::class);
+        return $this->belongsTo(Transaction::class);
     }
 
-    public function barang()
+    public function item()
     {
-        return $this->belongsTo(Barang::class);
+        return $this->belongsTo(Item::class);
     }
 }
