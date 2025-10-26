@@ -16,13 +16,13 @@ class TransactionDetailSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
         $transactionIds = DB::table('transactions')->pluck('id');
-        $itemIds = DB::table('items')->pluck('id', 'price');
+        $items = DB::table('items')->pluck('price', 'id');
 
         foreach ($transactionIds as $transactionId) {
             $totalPrice = 0;
             foreach (range(1, $faker->numberBetween(1, 5)) as $index) {
-                $itemId = $faker->randomElement($itemIds->keys());
-                $price = $itemIds[$itemId];
+                $itemId = $faker->randomElement($items->keys());
+                $price = $items[$itemId];
                 $quantity = $faker->numberBetween(1, 10);
                 $subtotal = $price * $quantity;
                 $totalPrice += $subtotal;
@@ -31,7 +31,7 @@ class TransactionDetailSeeder extends Seeder
                     'transaction_id' => $transactionId,
                     'item_id' => $itemId,
                     'quantity' => $quantity,
-                    'subtotal' => $subtotal,
+                    'total_price' => $subtotal,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

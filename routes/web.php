@@ -1,22 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BarangController;
-use App\Http\Controllers\GudangController;
-use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\TransaksiController;
-use App\Http\Controllers\DetailTransaksiController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionDetailController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::prefix('api')->group(function () {
-    Route::apiResource('barang', BarangController::class);
-    Route::apiResource('gudang', GudangController::class);
-    Route::apiResource('pelanggan', PelangganController::class);
-    Route::apiResource('supplier', SupplierController::class);
-    Route::apiResource('transaksi', TransaksiController::class);
-    Route::apiResource('detail-transaksi', DetailTransaksiController::class);
+    Route::apiResource('items', ItemController::class);
+    Route::apiResource('warehouses', WarehouseController::class);
+    Route::apiResource('customers', CustomerController::class);
+    Route::apiResource('suppliers', SupplierController::class);
+    Route::apiResource('transactions', TransactionController::class);
+    Route::apiResource('transaction-details', TransactionDetailController::class);
 });
