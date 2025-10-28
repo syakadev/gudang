@@ -10,7 +10,20 @@
 
         <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('POST')
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {{-- user id --}}
+                <input type="hidden" name="user_id"
+                value="
+                {{-- {{ auth()->user->id }} --}}
+
+
+                {{-- for testing --}}
+                2
+                ">
+
+
                 <!-- Nama Barang -->
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">Nama Barang</label>
@@ -46,9 +59,10 @@
                     <label for="warehouse_id" class="block text-sm font-medium text-gray-700">Gudang</label>
                     <select name="warehouse_id" id="warehouse_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
                         {{-- Populate with warehouses from database --}}
-                        <option value="">Pilih Gudang</option>
-                        <option value="1">Gudang A</option>
-                        <option value="2">Gudang B</option>
+                        <option value="" disabled>Pilih Gudang</option>
+                        @foreach ($werehouses as $werehouse )
+                            <option value="{{ $werehouse->id }}">{{ $werehouse->name }}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -57,16 +71,17 @@
                     <label for="supplier_id" class="block text-sm font-medium text-gray-700">Supplier</label>
                     <select name="supplier_id" id="supplier_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
                         {{-- Populate with suppliers from database --}}
-                        <option value="">Pilih Supplier</option>
-                        <option value="1">Supplier X</option>
-                        <option value="2">Supplier Y</option>
+                        <option value="" disabled>Pilih Supplier</option>
+                        @foreach ($supliers as $supplier )
+                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <!-- Foto Barang -->
                 <div class="md:col-span-2">
-                    <label for="photo" class="block text-sm font-medium text-gray-700">Foto Barang</label>
-                    <input type="file" name="photo" id="photo" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <label for="photo" class="block text-sm font-medium text-gray-700" >
+                    <input type="file" name="photo" id="photo" accept="image/*" capture="environment" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                 </div>
             </div>
 

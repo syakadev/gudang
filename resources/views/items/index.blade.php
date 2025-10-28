@@ -33,40 +33,25 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     {{-- Example Item 1 --}}
+                    @foreach ($items as $no => $item)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Laptop Pro 15"</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Elektronik</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$no + 1}}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{$item->name}}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{$item->category}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                50
+                                {{$item->stock}}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp 25.000.000</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{'Rp ' . number_format($item->price, 0, ',', '.') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Detail</a>
-                            <a href="#" class="ml-4 text-blue-600 hover:text-blue-900">Edit</a>
-                            <a href="#" class="ml-4 text-red-600 hover:text-red-900">Hapus</a>
+                            <a href="{{ route('items.show', $item->id)  }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Detail</a>
+                            <a href="{{ route('items.edit', $item->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">Edit</a>
+                            <a href="{{ route('items.destroy', $item->id) }}" class="text-red-600 hover:text-red-900">Hapus</a>
                         </td>
                     </tr>
-                    {{-- Example Item 2 --}}
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Keyboard Mekanikal</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Aksesoris</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                15
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp 1.200.000</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Detail</a>
-                            <a href="#" class="ml-4 text-blue-600 hover:text-blue-900">Edit</a>
-                            <a href="#" class="ml-4 text-red-600 hover:text-red-900">Hapus</a>
-                        </td>
-                    </tr>
-                    {{-- Add more items here later with @foreach --}}
+                    @endforeach
+
                 </tbody>
             </table>
         </div>

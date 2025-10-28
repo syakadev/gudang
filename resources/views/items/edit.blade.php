@@ -50,7 +50,6 @@
                         {{-- Populate with warehouses from database --}}
                         <option value="">Pilih Gudang</option>
                         <option value="1" {{ $item->warehouse_id == 1 ? 'selected' : '' }}>Gudang A</option>
-                        <option value="2" {{ $item->warehouse_id == 2 ? 'selected' : '' }}>Gudang B</option>
                     </select>
                 </div>
 
@@ -59,9 +58,10 @@
                     <label for="supplier_id" class="block text-sm font-medium text-gray-700">Supplier</label>
                     <select name="supplier_id" id="supplier_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
                         {{-- Populate with suppliers from database --}}
-                        <option value="">Pilih Supplier</option>
-                        <option value="1" {{ $item->supplier_id == 1 ? 'selected' : '' }}>Supplier X</option>
-                        <option value="2" {{ $item->supplier_id == 2 ? 'selected' : '' }}>Supplier Y</option>
+                        <option value="" disabled>Pilih Supplier</option>
+                        @foreach ($supliers as $supplier )
+                            <option value="{{ $supplier->id }}" {{ $item->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->name }}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -72,7 +72,7 @@
                     @if ($item->photo)
                         <div class="mt-4">
                             <p class="text-sm text-gray-600">Foto saat ini:</p>
-                            <img src="{{ asset('storage/' . $item->photo) }}" alt="Foto {{ $item->name }}" class="mt-2 h-24 w-24 object-cover rounded-md">
+                            <img src="{{ asset('storage/images/' . $item->photo) }}" alt="Foto {{ $item->name }}" class="mt-2 h-24 w-24 object-cover rounded-md">
                         </div>
                     @endif
                 </div>
