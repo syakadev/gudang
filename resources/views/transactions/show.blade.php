@@ -19,7 +19,7 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-500">Tanggal</p>
-                <p class="text-lg font-semibold text-gray-800">{{ $transaction->created_at->format('d F Y') }}</p>
+                <p class="text-lg font-semibold text-gray-800">{{ $transaction->transaction_date->format('d F Y') }}</p>
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-500">Tipe</p>
@@ -27,7 +27,7 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-500">Total</p>
-                <p class="text-lg font-semibold text-gray-800">Rp {{ number_format($transaction->total_price, 2, ',', '.') }}</p>
+                <p class="text-lg font-semibold text-gray-800">Rp {{ number_format($transaction->total_price, 0, ',', '.') }}</p>
             </div>
         </div>
 
@@ -44,13 +44,13 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    @foreach($transaction->details as $index => $detail)
+                    @foreach($transaction->transactionDetails as $index => $detail)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $index + 1 }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $detail->item->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $detail->quantity }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp {{ number_format($detail->price, 2, ',', '.') }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">Rp {{ number_format($detail->quantity * $detail->price, 2, ',', '.') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp {{ number_format($detail->price, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">Rp {{ number_format($detail->quantity * $detail->price, 0, ',', '.') }}</td>
                     </tr>
                     @endforeach
                 </tbody>

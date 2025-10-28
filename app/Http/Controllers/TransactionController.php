@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
+use App\Models\Item;
+use App\Models\Customer;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -63,7 +68,11 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        return view('transactions.edit', compact('transaction'));
+        $customers = Customer::all();
+        $suppliers = Supplier::all();
+        $items = Item::all();
+        $transactionDetails = TransactionDetail::where('transaction_id', $transaction->id)->get();
+        return view('transactions.edit', compact('transaction', 'customers', 'suppliers', 'items', 'transactionDetails'));
     }
 
     /**
