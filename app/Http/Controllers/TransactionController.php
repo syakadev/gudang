@@ -40,7 +40,11 @@ class TransactionController extends Controller
             'customer_id' => 'nullable|exists:customers,id',
         ]);
 
-        Transaction::create($request->all());
+        $data = $request->all();
+        $data['invoice_number'] = 'INV/' . now()->format('Ymd') . '/' . str_pad(Transaction::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
+
+
+        Transaction::create($data);
 
         return redirect()->route('transactions.index')
             ->with('success', 'Transaction created successfully.');

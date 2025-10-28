@@ -26,7 +26,20 @@ Route::get('dashboard', function () {
     $suppliers = Supplier::count();
     $transactions = Transaction::whereMonth('transaction_date', date('m'))->whereYear('transaction_date', date('Y'))->count();
     $transaction_details = TransactionDetail::count();
-    return view('dashboard', compact('items', 'warehouses', 'customers', 'suppliers', 'transactions', 'transaction_details'));
+
+    $recent_transactions = Transaction::latest()->take(5)->get()->map(function($item) {
+        $item->activity_type = 'transaction';
+        return $item;
+    });
+
+    $recent_items = Item::latest()->take(5)->get()->map(function($item) {
+        $item->activity_type = 'item';
+        return $item;
+    });
+
+    $activities = $recent_transactions->merge($recent_items)->sortByDesc('created_at')->take(5);
+
+    return view('dashboard', compact('items', 'warehouses', 'customers', 'suppliers', 'transactions', 'transaction_details', 'activities'));
 })->name('dashboard');
 
 Route::resource('items', ItemController::class);

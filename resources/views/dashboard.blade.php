@@ -70,27 +70,26 @@
         <h2 class="text-xl font-bold text-gray-800 mb-4">Aktivitas Terbaru</h2>
         <div class="bg-white shadow-md rounded-lg p-6">
             <ul class="divide-y divide-gray-200">
-                <li class="py-4 flex justify-between items-center">
-                    <div>
-                        <p class="text-sm font-medium text-gray-900">Barang baru ditambahkan: <span class="font-bold">Laptop Pro 15"</span></p>
-                        <p class="text-sm text-gray-500">Oleh: Admin User - 2 jam yang lalu</p>
-                    </div>
-                    <a href="#" class="text-sm text-blue-600 hover:underline">Lihat Detail</a>
-                </li>
-                <li class="py-4 flex justify-between items-center">
-                    <div>
-                        <p class="text-sm font-medium text-gray-900">Transaksi baru: <span class="font-bold">INV/20251028/001</span></p>
-                        <p class="text-sm text-gray-500">Oleh: Admin User - 3 jam yang lalu</p>
-                    </div>
-                    <a href="#" class="text-sm text-blue-600 hover:underline">Lihat Detail</a>
-                </li>
-                <li class="py-4 flex justify-between items-center">
-                    <div>
-                        <p class="text-sm font-medium text-gray-900">Stok barang diperbarui: <span class="font-bold">Keyboard Mekanikal</span></p>
-                        <p class="text-sm text-gray-500">Oleh: Admin User - 5 jam yang lalu</p>
-                    </div>
-                    <a href="#" class="text-sm text-blue-600 hover:underline">Lihat Detail</a>
-                </li>
+                @forelse ($activities as $activity)
+                    <li class="py-4 flex justify-between items-center">
+                        <div>
+                            @if ($activity->activity_type == 'transaction')
+                                <p class="text-sm font-medium text-gray-900">Transaksi baru: <span class="font-bold">{{ $activity->invoice_number }}</span></p>
+                                <p class="text-sm text-gray-500">Oleh: {{ $activity->user->name ?? 'System' }} - {{ $activity->created_at->diffForHumans() }}</p>
+                            @elseif ($activity->activity_type == 'item')
+                                <p class="text-sm font-medium text-gray-900">Barang baru ditambahkan: <span class="font-bold">{{ $activity->name }}</span></p>
+                                <p class="text-sm text-gray-500">Oleh: {{ $activity->user->name ?? 'System' }} - {{ $activity->created_at->diffForHumans() }}</p>
+                            @endif
+                        </div>
+                        @if ($activity->activity_type == 'transaction')
+                            <a href="{{ route('transactions.show', $activity->id) }}" class="text-sm text-blue-600 hover:underline">Lihat Detail</a>
+                        @elseif ($activity->activity_type == 'item')
+                            <a href="{{ route('items.show', $activity->id) }}" class="text-sm text-blue-600 hover:underline">Lihat Detail</a>
+                        @endif
+                    </li>
+                @empty
+                    <li class="py-4 text-sm text-gray-500">Tidak ada aktivitas terbaru.</li>
+                @endforelse
             </ul>
         </div>
     </div>
