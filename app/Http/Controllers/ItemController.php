@@ -54,7 +54,7 @@ class ItemController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('public/items');
+            $path = $request->file('photo')->store('public/images');
             $data['photo'] = Storage::url($path);
         }
 
