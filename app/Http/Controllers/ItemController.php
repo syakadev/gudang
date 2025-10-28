@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Warehouse;
+use App\Models\Supplier;
+use App\Models\User;
+
 
 class ItemController extends Controller
 {
@@ -23,7 +27,11 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('items.create');
+        $warehouses = Warehouse::all();
+        $suppliers = Supplier::all();
+        $users = User::all();
+
+        return view('items.create', compact('warehouses', 'suppliers', 'users'));
     }
 
     /**
@@ -69,6 +77,10 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        $werehouse = Warehouse::where('id', $item->warehouse_id)->first();
+        $supplier = Supplier::where('id', $item->supplier_id)->first();
+        $user = User::where('id', $item->user_id)->first();
+
         return view('items.edit', compact('item'));
     }
 
