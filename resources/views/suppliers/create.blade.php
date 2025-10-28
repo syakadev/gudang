@@ -26,13 +26,13 @@
                 <div class="space-y-6">
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700">Nama Supplier</label>
-                        <input type="text" name="name" id="name" value="{{ old('name') }}" required 
+                        <input type="text" name="name" id="name" value="{{ old('name') }}" required
                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     </div>
 
                     <div>
-                        <label for="contact" class="block text-sm font-medium text-gray-700">Kontak</label>
-                        <input type="text" name="contact" id="contact" value="{{ old('contact') }}" required
+                        <label for="phone_number" class="block text-sm font-medium text-gray-700">Kontak</label>
+                        <input type="text" name="phone_number" id="phone_number" value="{{ old('phone_number') }}" required
                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     </div>
 
