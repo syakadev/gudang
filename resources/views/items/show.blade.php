@@ -59,7 +59,7 @@
             <div class="md:col-span-1">
                 <p class="text-sm font-medium text-gray-500 mb-2">Foto Barang</p>
                 @if ($item->photo)
-                    <img src="{{ asset('storage/' . $item->photo) }}" alt="Foto {{ $item->name }}" class="w-full h-auto object-cover rounded-md shadow-md">
+                    <img src="{{ asset('storage/images/'.$item->photo) }}" alt="Foto {{ $item->name }}" class="w-full h-auto object-cover rounded-md shadow-md">
                 @else
                     <div class="w-full h-48 flex items-center justify-center bg-gray-100 rounded-md">
                         <p class="text-gray-500">Tidak ada foto</p>

@@ -54,8 +54,8 @@ class ItemController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('public/images');
-            $data['photo'] = Storage::url($path);
+            $request->file('photo')->store('images', 'public');
+            $data['photo'] = $request->file('photo')->hashName();
         }
 
         Item::create($data);
@@ -77,11 +77,11 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        $werehouse = Warehouse::where('id', $item->warehouse_id)->first();
-        $supplier = Supplier::where('id', $item->supplier_id)->first();
-        $user = User::where('id', $item->user_id)->first();
+        $warehouses = Warehouse::all();
+        $suppliers = Supplier::all();
 
-        return view('items.edit', compact('item'));
+
+        return view('items.edit', compact('item', 'warehouses', 'suppliers'));
     }
 
     /**
@@ -109,7 +109,7 @@ class ItemController extends Controller
                 Storage::delete(str_replace('/storage', 'public', $item->photo));
             }
 
-            $path = $request->file('photo')->store('public/items');
+            $path = $request->file('photo')->store('public/images');
             $data['photo'] = Storage::url($path);
         }
 

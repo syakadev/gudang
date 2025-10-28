@@ -6,6 +6,7 @@
 @section('content')
 <div class="container mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Tambah Barang Baru</h1>
 
         <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
@@ -57,11 +58,11 @@
                 <!-- Gudang -->
                 <div>
                     <label for="warehouse_id" class="block text-sm font-medium text-gray-700">Gudang</label>
-                    <select name="warehouse_id" id="warehouse_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                    <select name="warehouse_id" id="warehouse_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm select2" required>
                         {{-- Populate with warehouses from database --}}
                         <option value="" disabled>Pilih Gudang</option>
-                        @foreach ($werehouses as $werehouse )
-                            <option value="{{ $werehouse->id }}">{{ $werehouse->name }}</option>
+                        @foreach ($warehouses as $warehouse )
+                            <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -69,10 +70,10 @@
                 <!-- Supplier -->
                 <div>
                     <label for="supplier_id" class="block text-sm font-medium text-gray-700">Supplier</label>
-                    <select name="supplier_id" id="supplier_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
+                    <select name="supplier_id" id="supplier_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm select2" required>
                         {{-- Populate with suppliers from database --}}
-                        <option value="" disabled>Pilih Supplier</option>
-                        @foreach ($supliers as $supplier )
+                        <option value="" disabled selected>Pilih Supplier</option>
+                        @foreach ($suppliers as $supplier)
                             <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                         @endforeach
                     </select>
@@ -97,4 +98,16 @@
         </form>
     </div>
 </div>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            width: '100%'
+            height: '100%'
+        });
+    });
+</script>
+@endpush
 @endsection

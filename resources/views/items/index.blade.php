@@ -47,7 +47,12 @@
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <a href="{{ route('items.show', $item->id)  }}" class="text-indigo-600 hover:text-indigo-900 mr-4">Detail</a>
                             <a href="{{ route('items.edit', $item->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">Edit</a>
-                            <a href="{{ route('items.destroy', $item->id) }}" class="text-red-600 hover:text-red-900">Hapus</a>
+                            <form action="{{ route('items.destroy', $item->id)}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">Hapus</button>
+                            </form>
+
                         </td>
                     </tr>
                     @endforeach
