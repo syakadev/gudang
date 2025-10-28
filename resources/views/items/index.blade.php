@@ -64,6 +64,7 @@
         <!-- Pagination -->
         <div class="mt-6">
             {{-- Pagination links will go here --}}
+            {{ $items->links() }}
         </div>
     </div>
 </div>
