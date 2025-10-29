@@ -49,8 +49,8 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $index + 1 }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $detail->item->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $detail->quantity }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp {{ number_format($detail->price, 0, ',', '.') }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">Rp {{ number_format($detail->quantity * $detail->price, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp {{ number_format($detail->item->price, 0, ',', '.') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">Rp {{ number_format($detail->quantity * $detail->total_price, 0, ',', '.') }}</td>
                     </tr>
                     @endforeach
                 </tbody>

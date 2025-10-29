@@ -27,7 +27,6 @@
                 <div>
                     <label for="transaction_type" class="block text-sm font-medium text-gray-700">Tipe Transaksi</label>
                     <select id="transaction_type" name="transaction_type" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
-                        <option value="in" {{ old('transaction_type', $transaction->transaction_type) == 'in' ? 'selected' : '' }}>Barang Masuk</option>
                         <option value="out" {{ old('transaction_type', $transaction->transaction_type) == 'out' ? 'selected' : '' }}>Barang Keluar</option>
                     </select>
                     @error('transaction_type')
@@ -111,7 +110,7 @@
                         </div>
                         <div class="w-full sm:w-1/4">
                             <label class="block text-sm font-medium text-gray-700">Harga Satuan</label>
-                            <input type="number" name="items[{{ $index }}][price]" value="{{ old("items.{$index}.price", $detail->price) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Harga" step="0.01" min="0" required>
+                            <input type="number" name="items[{{ $index }}][price]" value="{{ old("items.{$index}.price", $detail->item->price) }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Harga" step="0.01" min="0" required>
                             @error("items.{$index}.price")
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
