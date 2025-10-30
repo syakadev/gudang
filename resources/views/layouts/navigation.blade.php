@@ -15,21 +15,31 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Warehouse Manager')
                     <x-nav-link :href="route('items.index')" :active="request()->routeIs('items.index')">
                         {{ __('Items') }}
                     </x-nav-link>
+                    @endif
+                    @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Cashier')
                     <x-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.index')">
                         {{ __('Customers') }}
                     </x-nav-link>
+                    @endif
+                    @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Warehouse Manager')
                     <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.index')">
                         {{ __('Suppliers') }}
                     </x-nav-link>
+                    @endif
+                    @if(Auth::user()->role == 'Admin')
                     <x-nav-link :href="route('warehouses.index')" :active="request()->routeIs('warehouses.index')">
                         {{ __('Warehouses') }}
                     </x-nav-link>
+                    @endif
+                    @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Cashier')
                     <x-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.index')">
                         {{ __('Transactions') }}
                     </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -85,21 +95,31 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Warehouse Manager')
             <x-responsive-nav-link :href="route('items.index')" :active="request()->routeIs('items.index')">
                 {{ __('Items') }}
             </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Cashier')
             <x-responsive-nav-link :href="route('customers.index')" :active="request()->routeIs('customers.index')">
                 {{ __('Customers') }}
             </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Warehouse Manager')
             <x-responsive-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.index')">
                 {{ __('Suppliers') }}
             </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->role == 'Admin')
             <x-responsive-nav-link :href="route('warehouses.index')" :active="request()->routeIs('warehouses.index')">
                 {{ __('Warehouses') }}
             </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Cashier')
             <x-responsive-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.index')">
                 {{ __('Transactions') }}
             </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
