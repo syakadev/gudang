@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Warehouse;
+use App\Models\Supplier;
+use App\Models\User;
+
 
 class ItemController extends Controller
 {
@@ -23,7 +27,11 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('items.create');
+        $warehouses = Warehouse::all();
+        $suppliers = Supplier::all();
+        $users = User::all();
+
+        return view('items.create', compact('warehouses', 'suppliers', 'users'));
     }
 
     /**
@@ -46,8 +54,8 @@ class ItemController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('public/items');
-            $data['photo'] = Storage::url($path);
+            $request->file('photo')->store('images', 'public');
+            $data['photo'] = $request->file('photo')->hashName();
         }
 
         Item::create($data);
@@ -69,7 +77,11 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        return view('items.edit', compact('item'));
+        $warehouses = Warehouse::all();
+        $suppliers = Supplier::all();
+
+
+        return view('items.edit', compact('item', 'warehouses', 'suppliers'));
     }
 
     /**
@@ -97,7 +109,7 @@ class ItemController extends Controller
                 Storage::delete(str_replace('/storage', 'public', $item->photo));
             }
 
-            $path = $request->file('photo')->store('public/items');
+            $path = $request->file('photo')->store('public/images');
             $data['photo'] = Storage::url($path);
         }
 

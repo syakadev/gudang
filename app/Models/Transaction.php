@@ -10,6 +10,7 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'invoice_number',
         'notes',
         'transaction_date',
         'total_price',

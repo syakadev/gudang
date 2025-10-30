@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
+use App\Models\Item;
+use App\Models\Customer;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -40,7 +45,11 @@ class TransactionController extends Controller
             'customer_id' => 'nullable|exists:customers,id',
         ]);
 
-        Transaction::create($request->all());
+        $data = $request->all();
+        $data['invoice_number'] = 'INV/' . now()->format('Ymd') . '/' . str_pad(Transaction::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
+
+
+        Transaction::create($data);
 
         return redirect()->route('transactions.index')
             ->with('success', 'Transaction created successfully.');
@@ -59,7 +68,11 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        return view('transactions.edit', compact('transaction'));
+        $customers = Customer::all();
+        $suppliers = Supplier::all();
+        $items = Item::all();
+        $transactionDetails = TransactionDetail::where('transaction_id', $transaction->id)->get();
+        return view('transactions.edit', compact('transaction', 'customers', 'suppliers', 'items', 'transactionDetails'));
     }
 
     /**
