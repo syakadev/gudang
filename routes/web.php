@@ -43,13 +43,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard', compact('items', 'warehouses', 'customers', 'suppliers', 'transactions', 'transaction_details', 'activities'));
     })->name('dashboard');
 
-    Route::resource('items', ItemController::class);
-    Route::resource('warehouses', WarehouseController::class);
-    Route::resource('customers', CustomerController::class);
-    Route::resource('suppliers', SupplierController::class);
-    Route::resource('transactions', TransactionController::class);
-    Route::resource('transaction_details', TransactionDetailController::class);
     Route::resource('profile', ProfileController::class);
+
+
+    Route::middleware(['role:Admin'])->group(function () {
+        Route::resource('warehouses', WarehouseController::class);
+    });
+
+    Route::middleware(['role:Admin,Warehouse Manager'])->group(function () {
+        Route::resource('items', ItemController::class);
+        Route::resource('suppliers', SupplierController::class);
+    });
+
+    Route::middleware(['role:Admin,Cashier'])->group(function () {
+        Route::resource('customers', CustomerController::class);
+        Route::resource('transactions', TransactionController::class);
+        Route::resource('transaction_details', TransactionDetailController::class);
+    });
 });
 
 require __DIR__.'/auth.php';
