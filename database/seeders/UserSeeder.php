@@ -18,11 +18,27 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
-            'email_verified_at' => now(), // Langsung verifikasi email
-            'password' => Hash::make('12345678'), // Password: 12345678
+            'email_verified_at' => now(),
+            'password' => Hash::make('12345678'),
+            'role' => 'Admin',
         ]);
 
-        // Anda bisa menambahkan user lain di sini jika perlu
-        // User::factory(10)->create();
+        // Membuat user warehouse manager
+        User::create([
+            'name' => 'Warehouse Manager',
+            'email' => 'warehouse@example.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('12345678'),
+            'role' => 'Warehouse Manager',
+        ]);
+
+        // Membuat user cashier
+        User::create([
+            'name' => 'Cashier',
+            'email' => 'cashier@example.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('12345678'),
+            'role' => 'Cashier',
+        ]);
     }
 }
