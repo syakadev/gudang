@@ -6,7 +6,7 @@
 <div class="container mx-auto">
     <!-- Welcome Header -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">Selamat Datang, Admin!</h1>
+        <h1 class="text-3xl font-bold text-gray-800">Selamat Datang, {{Auth::user()->name}}</h1>
         <p class="text-gray-500">Berikut adalah ringkasan aktivitas gudang Anda.</p>
     </div>
 
