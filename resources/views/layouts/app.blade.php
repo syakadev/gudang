@@ -28,9 +28,10 @@
             @endif
 
             <!-- Page Content -->
-            <main class="pt-8">
+            <main class="pt-8" style="padding-bottom: 50px">
                 @yield('content')
             </main>
         </div>
+        @stack('scripts')
     </body>
 </html>
