@@ -17,7 +17,7 @@ return new class extends Migration
             $table->dateTime('transaction_date');
             $table->decimal('total_price', 15, 2);
             $table->string('shipping_address')->nullable();
-            $table->enum('transaction_type', ['in', 'out']);
+            $table->enum('transaction_type', ['in', 'out'])->default('out');
 
             $table->foreignId('user_id')
                 ->constrained('users')

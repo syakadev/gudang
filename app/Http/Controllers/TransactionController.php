@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
+use App\Models\Item;
+use App\Models\Customer;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -22,7 +27,10 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        return view('transactions.create');
+        $customers = Customer::all();
+        $suppliers = Supplier::all();
+        $items = Item::all();
+        return view('transactions.create', compact('customers', 'items', 'suppliers'));
     }
 
     /**
@@ -33,14 +41,36 @@ class TransactionController extends Controller
         $request->validate([
             'notes' => 'nullable|string',
             'transaction_date' => 'required|date',
-            'total_price' => 'required|numeric',
             'shipping_address' => 'nullable|string',
-            'transaction_type' => 'required|in:in,out',
             'user_id' => 'required|exists:users,id',
-            'customer_id' => 'nullable|exists:customers,id',
+            'customer_id' => 'required|exists:customers,id',
+            'items' => 'required|array',
+            'items.*.item_id' => 'required|exists:items,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.price' => 'required|numeric|min:0',
         ]);
 
-        Transaction::create($request->all());
+        $totalPrice = 0;
+        foreach ($request->items as $item) {
+            $totalPrice += $item['quantity'] * $item['price'];
+        }
+
+        $data = $request->all();
+        $data['total_price'] = $totalPrice;
+        $data['transaction_type'] = 'out';
+        $data['invoice_number'] = 'INV/' . now()->format('Ymd') . '/' . str_pad(Transaction::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
+
+
+        $transaction = Transaction::create($data);
+
+        foreach ($request->items as $item) {
+            TransactionDetail::create([
+                'transaction_id' => $transaction->id,
+                'item_id' => $item['item_id'],
+                'quantity' => $item['quantity'],
+                'total_price' => $item['price'],
+            ]);
+        }
 
         return redirect()->route('transactions.index')
             ->with('success', 'Transaction created successfully.');
@@ -59,7 +89,11 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        return view('transactions.edit', compact('transaction'));
+        $customers = Customer::all();
+        $suppliers = Supplier::all();
+        $items = Item::all();
+        $transactionDetails = TransactionDetail::where('transaction_id', $transaction->id)->get();
+        return view('transactions.edit', compact('transaction', 'customers', 'items', 'transactionDetails', 'suppliers'));
     }
 
     /**
@@ -72,7 +106,6 @@ class TransactionController extends Controller
             'transaction_date' => 'sometimes|required|date',
             'total_price' => 'sometimes|required|numeric',
             'shipping_address' => 'nullable|string',
-            'transaction_type' => 'sometimes|required|in:in,out',
             'user_id' => 'sometimes|required|exists:users,id',
             'customer_id' => 'nullable|exists:customers,id',
         ]);

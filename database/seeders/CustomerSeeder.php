@@ -17,7 +17,7 @@ class CustomerSeeder extends Seeder
         $faker = Faker::create('id_ID');
         foreach (range(1, 10) as $index) {
             DB::table('customers')->insert([
-                'name' => $faker->name,
+                'name' => $faker->company,
                 'address' => $faker->address,
                 'phone_number' => $faker->phoneNumber,
                 'created_at' => now(),
