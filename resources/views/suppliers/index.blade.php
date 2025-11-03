@@ -12,6 +12,13 @@
             </a>
         </div>
 
+
+        <!-- Search and Filter -->
+        <div class="mb-4">
+            <input id="searchInput" type="text" placeholder="Cari barang..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+        </div>
+
+
         @if(session('success'))
             <div class="mb-4 px-4 py-3 bg-green-100 text-green-800 border border-green-300 rounded-lg">
                 {{ session('success') }}
@@ -20,7 +27,7 @@
 
         <!-- Suppliers Table -->
         <div class="overflow-x-auto">
-            <table class="min-w-full bg-white">
+            <table class="min-w-full bg-white" id="dataTable">
                 <thead class="bg-gray-100">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
@@ -56,6 +63,8 @@
                     @endforelse
                 </tbody>
             </table>
+                        <p id="noResult" class="no-result text-center" style="display:none; padding: 1cm">Tidak ada hasil ditemukan</p>
+
         </div>
 
         <!-- Pagination -->
@@ -64,4 +73,30 @@
         </div>
     </div>
 </div>
+@push('scripts')
+<script>
+   const searchInput = document.getElementById('searchInput');
+    const table = document.getElementById('dataTable');
+    const rows = table.getElementsByTagName('tr');
+    const noResult = document.getElementById('noResult');
+
+    searchInput.addEventListener('keyup', function() {
+      const filter = this.value.toLowerCase();
+      let visibleCount = 0;
+
+      for (let i = 1; i < rows.length; i++) { // mulai dari 1 agar skip header
+        const rowText = rows[i].textContent.toLowerCase();
+        if (rowText.indexOf(filter) > -1) {
+          rows[i].style.display = '';
+          visibleCount++;
+        } else {
+          rows[i].style.display = 'none';
+        }
+      }
+
+      // tampilkan pesan jika tidak ada hasil
+      noResult.style.display = visibleCount === 0 ? '' : 'none';
+    });
+  </script>
+@endpush
 @endsection
